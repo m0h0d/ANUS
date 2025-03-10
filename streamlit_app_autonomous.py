@@ -61,6 +61,14 @@ st.markdown("""
         border-radius: 10px;
         margin-bottom: 15px;
     }
+    .tool-result {
+        background-color: #f1f3f5;
+        padding: 10px;
+        border-radius: 5px;
+        border-left: 3px solid #4ECDC4;
+        margin-top: 5px;
+        margin-bottom: 15px;
+    }
     .footer {
         text-align: center;
         margin-top: 3rem;
@@ -142,10 +150,10 @@ class Tools:
 - Accessibility Score: {analysis['accessibility_score']}
 
 **Issues Detected:**
-{"".join(['- ' + issue + '\\n' for issue in analysis['issues']])}
+{"".join(['- ' + issue + '\n' for issue in analysis['issues']])}
 
 **Recommendations:**
-{"".join(['- ' + rec + '\\n' for rec in analysis['recommendations']])}
+{"".join(['- ' + rec + '\n' for rec in analysis['recommendations']])}
             """
             
             return formatted_analysis
@@ -210,7 +218,7 @@ This report analyzes {len(websites)} websites and provides recommendations for i
 
 ### Recommendations:
 
-{chr(10).join([f"**{row['Website']}** ({row['Priority']} Priority):\\n- {'Optimize images and reduce server response time' if row['Load Time (s)'] > 3 else 'Good loading performance'}\\n- {'Improve mobile responsiveness' if row['Mobile Score'] < 80 else 'Good mobile design'}\\n- {'Enhance SEO elements' if row['SEO Score'] < 80 else 'Good SEO practices'}\\n" for _, row in df.iterrows()])}
+{chr(10).join([f"**{row['Website']}** ({row['Priority']} Priority):\n- {'Optimize images and reduce server response time' if row['Load Time (s)'] > 3 else 'Good loading performance'}\n- {'Improve mobile responsiveness' if row['Mobile Score'] < 80 else 'Good mobile design'}\n- {'Enhance SEO elements' if row['SEO Score'] < 80 else 'Good SEO practices'}\n" for _, row in df.iterrows()])}
 
 ### Next Steps:
 1. Address high priority websites first
@@ -550,8 +558,8 @@ if st.button("Execute Task"):
                         elif step["type"] == "action":
                             st.markdown(f"▶️ **Action:** {step['content']}")
                         elif step["type"] == "result":
-                            with st.expander("🔍 View Tool Result"):
-                                st.markdown(step['content'])
+                            st.markdown(f"🔍 **Tool Result:**")
+                            st.markdown(f"<div class='tool-result'>{step['content']}</div>", unsafe_allow_html=True)
                         elif step["type"] == "next":
                             st.markdown(f"⏭️ **Next Step:** {step['content']}")
                 
@@ -584,8 +592,8 @@ if st.session_state.history:
                     elif step["type"] == "action":
                         st.markdown(f"▶️ **Action:** {step['content']}")
                     elif step["type"] == "result":
-                        with st.expander("🔍 View Tool Result"):
-                            st.markdown(step['content'])
+                        st.markdown(f"🔍 **Tool Result:**")
+                        st.markdown(f"<div class='tool-result'>{step['content']}</div>", unsafe_allow_html=True)
                     elif step["type"] == "next":
                         st.markdown(f"⏭️ **Next Step:** {step['content']}")
             
